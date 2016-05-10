@@ -16,9 +16,6 @@ COPY proxy.sh /usr/bin/proxy.sh
 # Ensure we hit a single mirror for builds, since httpredir is flakey
 RUN sed -i 's/httpredir/http.us/g' /etc/apt/sources.list
 
-# Add 'backports' for qemu-utils
-RUN echo 'deb http://http.us.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list
-
 # Install requirements: Python for ironic-python-agent, others for putting an
 # image on disk
 RUN proxy.sh apt-get update && \
