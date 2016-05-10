@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM ubuntu:trusty
 
 # The add is before the RUN to ensure we get the latest version of packages
 # Docker will cache RUN commands, but because the SHA1 of the dir will be
@@ -23,10 +23,10 @@ RUN echo 'deb http://http.us.debian.org/debian jessie-backports main' > /etc/apt
 # image on disk
 RUN proxy.sh apt-get update && \
     proxy.sh apt-get -y upgrade && \
+    ln -s /bin/true /bin/update-initramfs && \
     proxy.sh apt-get install -y --no-install-recommends gdisk python2.7 python2.7-dev \
         python-pip qemu-utils parted hdparm util-linux genisoimage git gcc \
-        bash coreutils tgt dmidecode ipmitool psmisc dosfstools && \
-    proxy.sh apt-get --only-upgrade -t jessie-backports install -y qemu-utils
+        bash coreutils tgt dmidecode ipmitool psmisc dosfstools biosdevname lldpad qemu-utils
 
 # Some cleanup
 RUN proxy.sh apt-get -y autoremove && \
